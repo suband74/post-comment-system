@@ -3,9 +3,24 @@
 ### Установка проекта на локальный компьютер
 
 1. Должен быть предустановлен менеджер зависимостей `poetry`. Или установите `poetry` любым удобным способом. 
-   Например: `curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -` 
-2. Выполните клонирование репозитория: `git clone https://github.com/suband74/test_task_django`
-3. Затем выполните установку зависимостей проекта: `poetry install`
+   Например: `curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -`
+2. Должен быть предустановлен и работать `Postgresql`
+3. Создайте базу данных с юзером и паролем на нужном порту.
+4. Выполните клонирование репозитория: `git clone https://github.com/suband74/test_task_django`
+5. В файле `settings.py` пропишите необходимые настройки:
+    ```python
+        DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": "my_db",
+            "USER": "hero",
+            "PASSWORD" : "my_db123",
+            "HOST": "localhost",
+            "PORT": "5432",
+        }
+    }
+    ```
+6. Затем выполните установку зависимостей проекта: `poetry install`
 
 ### Реализованы следующие методы API
 
