@@ -27,8 +27,6 @@ class CommentsAPIView(APIView):
 
         else:
             key = request.data["id_kor"]
-            print(Comment.objects.filter(pk=key).exists() is False)
-
             request.data["level"] = Comment.objects.get(pk=key).level + 1
             serializer.is_valid(raise_exception=True)
             serializer.save()
@@ -66,7 +64,6 @@ class Com_3_APIView(APIView):
                     structure.update({item["id_kor"]: [item["id"]]})
                 else:
                     structure[item["id_kor"]].append(item["id"])
-        print(structure)
         return structure
 
     @staticmethod
