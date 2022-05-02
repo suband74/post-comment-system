@@ -1,0 +1,27 @@
+version: "3"
+   
+services:
+  db:
+    image: postgres:11
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    container_name: system_comments
+    build: .
+    command: bash -c 'python src/apps/manage.py migrate --noinput &&
+      python src/apps/manage.py runserver 0.0.0.0:5000'
+    volumes:
+      - .:/code
+    ports:
+      - "5000:5000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+
