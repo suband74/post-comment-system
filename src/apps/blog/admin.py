@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from .models import Posts, Comment
+from mptt.admin import MPTTModelAdmin
 
-admin.site.register(Posts)
-admin.site.register(Comment)
+from .models import Articles, Comments
+
+admin.site.register(Articles)
+admin.site.register(Comments, MPTTModelAdmin)

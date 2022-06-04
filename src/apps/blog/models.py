@@ -1,32 +1,37 @@
 from django.db import models
+from mptt.models import MPTTModel, TreeForeignKey
 
 
-class Posts(models.Model):
-    title = models.CharField(max_length=255)
+class Articles(models.Model):
+    title = models.CharField(max_length=255, unique=True)
 
     def __str__(self) -> str:
         return self.title
 
 
-class Comment(models.Model):
-    author = models.CharField("Автор комментария", max_length=255)
+class Comments(MPTTModel):
     content = models.TextField("Текст комментария")
-    id_kor = models.PositiveIntegerField("ID референта", default=0)
-    level = models.PositiveIntegerField(
-        "Уровень вложенности", blank=True, default=0
-    )
-    post = models.ForeignKey(
-        Posts,
+
+    article = models.ForeignKey(
+        Articles,
+        blank=True,
+        null=True,
         on_delete=models.PROTECT,
         related_name="comment",
         verbose_name="Статья",
+
     )
-    time_create = models.DateTimeField(
-        "Время создания комментария", auto_now_add=True
+    time_create = models.DateTimeField("Время создания комментария", auto_now_add=True)
+
+    parent = TreeForeignKey(
+        "self", on_delete=models.CASCADE, null=True, blank=True, related_name="children"
     )
 
     class Meta:
         ordering = ("time_create",)
 
+    class MPTTMeta:
+        order_insertion_by = ['article']
+
     def __str__(self) -> str:
-        return f"Comment by {self.author} on {self.post} on {self.id_kor}"
+        return self.content

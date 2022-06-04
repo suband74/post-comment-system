@@ -1,10 +1,12 @@
-from django.urls import path
-from blog.views import CommentsAPIView, PostsAPIView, Com_3_APIView, StrucAPIView
+from django.urls import path, include
+from rest_framework import routers
+from .views import CommentsAPIView, ArticlesViewSet
 
+
+router = routers.SimpleRouter()
+router.register(r'articles', ArticlesViewSet)
 
 urlpatterns = [
-    path("postslist", PostsAPIView.as_view()),
-    path("commentslist/", CommentsAPIView.as_view()),
-    path("commentslist/<int:commid>", Com_3_APIView.as_view()),
-    path("poststruc/<int:post>", StrucAPIView.as_view()),
+    path("", include(router.urls)),
+    path("comments/", CommentsAPIView.as_view()),
 ]

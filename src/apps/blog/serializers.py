@@ -1,21 +1,21 @@
 from rest_framework import serializers
 
-from .models import Comment, Posts
+from .models import Articles, Comments
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Comment
+        model = Comments
         fields = '__all__'
 
     def create(self, validated_data):
-        return Comment.objects.create(**validated_data)
+        return Comments.objects.create(**validated_data)
 
 
-class PostSerializer(serializers.ModelSerializer):
+class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Posts
+        model = Articles
         fields = '__all__'
 
     def create(self, validated_data):
-        return Posts.objects.create(**validated_data)
+        return Articles.objects.create(**validated_data)
